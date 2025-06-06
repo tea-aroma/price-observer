@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('url')->unique();
+            $table->string('name');
+            $table->string('code')->unique();
             $table->string('description')->nullable();
             $table->integer('sort_order')->default(0);
             $table->boolean('is_active')->default(true);

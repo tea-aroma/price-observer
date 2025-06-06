@@ -20,8 +20,9 @@ class Site extends Model
      */
     protected $fillable =
         [
-            'name',
             'url',
+            'name',
+            'code',
             'description',
             'sort_order',
             'is_active',
