@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('url')->unique();
             $table->string('image')->nullable();
-            $table->string('notice')->nullable();
+            $table->string('note')->nullable();
             $table->json('parameters')->default('[]');
             $table->timestamp('publicate_at')->nullable();
         });

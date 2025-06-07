@@ -30,7 +30,7 @@ class ItemInformation extends Model
             'name',
             'url',
             'image',
-            'notice',
+            'note',
             'parameters',
             'publicate_at',
         ];

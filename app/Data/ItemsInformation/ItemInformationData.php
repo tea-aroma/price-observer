@@ -39,7 +39,7 @@ class ItemInformationData extends Data
     /**
      * @var string
      */
-    public string $notice;
+    public string $note;
 
     /**
      * @var array
