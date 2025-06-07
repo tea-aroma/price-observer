@@ -6,12 +6,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SubscribeRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 
 /**
- * Provides actions for Subscribe logic.
+ * Provides the actions for Recipient.
  */
-class SubscribeController extends Controller
+class RecipientController extends Controller
 {
     /**
      * @return View
@@ -28,6 +29,22 @@ class SubscribeController extends Controller
      */
     public function subscribe(SubscribeRequest $request): JsonResponse
     {
+        recipient()->subscribe($request->input('email'));
+
         return response()->json([ 'message' => 'You will start receiving price change notifications only after you confirm your email.' ]);
+    }
+
+    /**
+     * Confirms the recipient's email.
+     *
+     * @param string $token
+     *
+     * @return RedirectResponse
+     */
+    public function confirm(string $token): RedirectResponse
+    {
+        recipient()->confirm($token);
+
+        return redirect()->route('subscribe.index');
     }
 }

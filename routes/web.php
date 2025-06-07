@@ -1,7 +1,13 @@
 <?php
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ \App\Http\Controllers\SubscribeController::class, 'index' ])->name('subscribe.index');
+Route::group([ 'prefix' => 'recipient', 'as' => 'recipient.' ], function (Router $router)
+{
+    $router->get('/subscribe', [ \App\Http\Controllers\RecipientController::class, 'index' ])->name('subscribe');
 
-Route::post('/subscribe', [ \App\Http\Controllers\SubscribeController::class, 'subscribe' ])->name('subscribe.subscribe');
+    $router->post('/subscribe', [ \App\Http\Controllers\RecipientController::class, 'subscribe' ])->name('subscribe');
+
+    $router->get('/confirm/{token?}', [ \App\Http\Controllers\RecipientController::class, 'confirm' ])->name('confirm');
+});

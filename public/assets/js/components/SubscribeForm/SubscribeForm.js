@@ -83,7 +83,7 @@ export class SubscribeForm
      */
     async _request()
     {
-        return await HttpRequest.send({ url: 'subscribe', method: 'post', data: this.form.toObject() });
+        return await HttpRequest.send({ url: 'recipient/subscribe', method: 'post', data: this.form.toObject() });
     }
 
     /**

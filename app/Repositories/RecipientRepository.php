@@ -11,6 +11,7 @@ use App\Standards\Data\Interfaces\OptionsInterface;
 use App\Standards\Enums\CacheTag;
 use App\Standards\Enums\ErrorMessage;
 use App\Standards\Repositories\Abstracts\Repository;
+use App\Standards\Repositories\Interfaces\FindByValueInterface;
 use App\Standards\Repositories\Interfaces\FindInterface;
 use App\Standards\Repositories\Interfaces\ReadInterface;
 use App\Standards\Repositories\Interfaces\UpdateInterface;
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Collection;
 /**
  * @inheritDoc
  */
-class RecipientRepository extends Repository implements ReadInterface, FindInterface, WriteInterface, UpdateInterface, WriteOrUpdateInterface
+class RecipientRepository extends Repository implements ReadInterface, FindInterface, WriteInterface, UpdateInterface, WriteOrUpdateInterface, FindByValueInterface
 {
     /**
      * @var string|null
@@ -125,5 +126,21 @@ class RecipientRepository extends Repository implements ReadInterface, FindInter
         $this->cacheRepository->flush();
 
         return $this->newQuery()->updateOrCreate($attributes->toArray(), $values->toArray());
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @param string $value
+     * @param string $column
+     *
+     * @return Recipient|null
+     */
+    public function findByValue(string $value, string $column = 'token'): ?Recipient
+    {
+        return $this->cacheRepository->remember($value . $column, function () use ($value, $column)
+        {
+            return $this->newQuery()->where($column, '=', $value)->first();
+        });
     }
 }
