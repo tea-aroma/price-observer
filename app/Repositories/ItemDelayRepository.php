@@ -11,16 +11,18 @@ use App\Standards\Data\Interfaces\OptionsInterface;
 use App\Standards\Enums\CacheTag;
 use App\Standards\Enums\ErrorMessage;
 use App\Standards\Repositories\Abstracts\Repository;
+use App\Standards\Repositories\Interfaces\FindByValueInterface;
 use App\Standards\Repositories\Interfaces\FindInterface;
 use App\Standards\Repositories\Interfaces\ReadInterface;
 use App\Standards\Repositories\Interfaces\WriteOrUpdateInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 
 /**
  * @inheritDoc
  */
-class ItemDelayRepository extends Repository implements ReadInterface, FindInterface, WriteOrUpdateInterface
+class ItemDelayRepository extends Repository implements ReadInterface, FindInterface, WriteOrUpdateInterface, FindByValueInterface
 {
     /**
      * @var string|null
@@ -85,5 +87,21 @@ class ItemDelayRepository extends Repository implements ReadInterface, FindInter
         $this->cacheRepository->flush();
 
         return $this->newQuery()->updateOrCreate($attributes->toArray(), $values->toArray());
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @param string $value
+     * @param string $column
+     *
+     * @return ItemDelay|null
+     */
+    public function findByValue(string $value, string $column = 'code'): ?ItemDelay
+    {
+        return $this->cacheRepository->remember($value . $column, function () use ($value, $column)
+        {
+            return $this->newQuery()->where($column, '=',  $value)->first();
+        });
     }
 }

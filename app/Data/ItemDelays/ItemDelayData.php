@@ -14,5 +14,5 @@ class ItemDelayData extends ClassifierData
     /**
      * @var int
      */
-    public int $value;
+    public int $delay;
 }

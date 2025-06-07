@@ -9,6 +9,7 @@ use App\Standards\Enums\CacheTag;
 use App\Standards\Enums\ClassifierModel;
 use App\Standards\Enums\ErrorMessage;
 use App\Standards\Repositories\Abstracts\Repository;
+use App\Standards\Repositories\Interfaces\FindByValueInterface;
 use App\Standards\Repositories\Interfaces\FindInterface;
 use App\Standards\Repositories\Interfaces\ReadInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @inheritDoc
  */
-class ClassifierRepository extends Repository implements ReadInterface, FindInterface
+class ClassifierRepository extends Repository implements ReadInterface, FindInterface, FindByValueInterface
 {
     /**
      * @inheritdoc
@@ -71,6 +72,22 @@ class ClassifierRepository extends Repository implements ReadInterface, FindInte
         return $this->cacheRepository->remember($id, function () use ($id)
         {
             return $this->newQuery()->find($id);
+        });
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @param string $value
+     * @param string $column
+     *
+     * @return Model|null
+     */
+    public function findByValue(string $value, string $column = 'code'): ?Model
+    {
+        return $this->cacheRepository->remember($value . $column, function () use ($value, $column)
+        {
+            return $this->newQuery()->where($column, $value)->first();
         });
     }
 }
