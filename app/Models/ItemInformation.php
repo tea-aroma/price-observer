@@ -31,6 +31,7 @@ class ItemInformation extends Model
             'url',
             'image',
             'note',
+            'currency',
             'parameters',
             'publicate_at',
         ];

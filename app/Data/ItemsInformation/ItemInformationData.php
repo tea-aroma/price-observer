@@ -42,6 +42,11 @@ class ItemInformationData extends Data
     public string $note;
 
     /**
+     * @var string
+     */
+    public string $currency;
+
+    /**
      * @var array
      */
     public array $parameters;
