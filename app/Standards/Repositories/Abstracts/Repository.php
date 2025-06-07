@@ -6,6 +6,7 @@ namespace App\Standards\Repositories\Abstracts;
 use App\Standards\CacheRepository\Classes\CacheRepository;
 use App\Standards\Enums\CacheTag;
 use App\Standards\Enums\CacheTTL;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 
@@ -103,6 +104,16 @@ abstract class Repository
     public static function query(): static
     {
         return new static();
+    }
+
+    /**
+     * Gets the new Builder instance.
+     *
+     * @return Builder
+     */
+    public function newQuery(): Builder
+    {
+        return $this->model->newQuery();
     }
 
     /**

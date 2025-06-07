@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 /**
@@ -35,5 +36,21 @@ class Item extends Model
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function recipients(): BelongsToMany
+    {
+        return $this->belongsToMany(Recipient::class, ItemToRecipient::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function information(): BelongsTo
+    {
+        return $this->belongsTo(ItemInformation::class, 'id', 'item_id');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 /**
@@ -31,4 +32,12 @@ class Recipient extends Model
             'confirmed_at',
             'is_active',
         ];
+
+    /**
+     * @return BelongsToMany
+     */
+    public function items(): BelongsToMany
+    {
+        return $this->belongsToMany(Item::class)->using(ItemToRecipient::class);
+    }
 }
