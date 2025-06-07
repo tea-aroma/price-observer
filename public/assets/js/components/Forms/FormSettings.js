@@ -49,6 +49,13 @@ export class FormSettings
      *
      * @type { string }
      */
+    domNotifyClassName = 'form__notify';
+
+    /**
+     * @public
+     *
+     * @type { string }
+     */
     buttonText = 'Submit';
 
     /**

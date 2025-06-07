@@ -39,6 +39,13 @@ export class Form
     /**
      * @protected
      *
+     * @type { HTMLDivElement }
+     */
+    _domNotify;
+
+    /**
+     * @protected
+     *
      * @type { FormSettings }
      */
     _settings;
@@ -65,7 +72,7 @@ export class Form
      */
     initialization()
     {
-        this._domButton = this._createDomButton();
+        this._domNotify = this._createDomNotify();
 
         this._domElement = this._createDomElement();
 
@@ -74,6 +81,10 @@ export class Form
         this._domElement.addEventListener('change', this._enterHandler.bind(this));
 
         this._build();
+
+        this._domButton = this._createDomButton();
+
+        this._domElement.append(this._domButton);
     }
 
     /**
@@ -95,6 +106,8 @@ export class Form
         }
 
         this.customEvents.execute(FormEvent.SUBMIT, event);
+
+        event.preventDefault();
     }
 
     /**
@@ -120,14 +133,7 @@ export class Form
      */
     _createDomElement()
     {
-        const children = [];
-
-        if (!this._settings.withoutButton)
-        {
-            children.push(this._domButton);
-        }
-
-        return createHtmlElement('form', { class: this._settings.domElementClassName }, children);
+        return createHtmlElement('form', { class: this._settings.domElementClassName }, [ this._domNotify ]);
     }
 
     /**
@@ -140,6 +146,18 @@ export class Form
     _createDomButton()
     {
         return createHtmlElement('button', { class: this._settings.domButtonClassName, type: 'button' }, [ new Text(this._settings.buttonText) ]);
+    }
+
+    /**
+     * Creates a dom errors.
+     *
+     * @protected
+     *
+     * @return { HTMLDivElement }
+     */
+    _createDomNotify()
+    {
+        return createHtmlElement('div', { class: this._settings.domNotifyClassName });
     }
 
     /**
@@ -166,7 +184,7 @@ export class Form
             this._items.set(instance.getId(), instance);
         }
 
-        this._domElement.prepend(fragment);
+        this._domElement.append(fragment);
     }
 
     /**
@@ -286,5 +304,62 @@ export class Form
     clear()
     {
         this._items.forEach(item => item.clear());
+    }
+
+    /**
+     * Sets the specified success messages.
+     *
+     * @public
+     *
+     * @param { ?Object<string, Array<string>> } messages
+     *
+     * @param { 'error' | 'success' } type
+     *
+     * @return { void }
+     */
+    setMessages(messages, type)
+    {
+        this._domNotify.innerHTML = '';
+
+        if (!messages)
+        {
+            return;
+        }
+
+        const spans = this._objectToSpans(messages, type);
+
+        this._domNotify.append(spans);
+    }
+
+    /**
+     * Converts errors to string.
+     *
+     * @protected
+     *
+     * @param { Object<string, Array<string>> } object
+     *
+     * @param { 'error' | 'success' } className
+     *
+     * @return { DocumentFragment<HTMLSpanElement> }
+     */
+    _objectToSpans(object, className)
+    {
+        const fragment = document.createDocumentFragment();
+
+        for (const key in object)
+        {
+            const value = object[ key ];
+
+            for (let i = 0, n = value.length; i < n; i++)
+            {
+                const message = value[ i ];
+
+                const span = createHtmlElement('span', { class: className }, [ new Text(message) ]);
+
+                fragment.append(span);
+            }
+        }
+
+        return fragment;
     }
 }

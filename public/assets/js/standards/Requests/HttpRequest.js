@@ -5,7 +5,7 @@ import { convertToURL } from '../functions/convertToURL.js';
 export class HttpRequest
 {
     /**
-     * @typedef { { status: string, message: string,  data?: Array<any>, record?: Array | Object } } HttpResponse
+     * @typedef { { status: string, message: string,  data?: Array<any>, record?: Array | Object, errors?: Object<string, Array<string>> } } HttpResponse
      */
 
     /**
@@ -58,6 +58,7 @@ export class HttpRequest
     _headers =
         {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
         };
 
     /**
@@ -205,5 +206,17 @@ export class HttpRequest
     getResponse()
     {
         return this._xmlHttpRequest.response;
+    }
+
+    /**
+     * Determines whether the request status is Success.
+     *
+     * @public
+     *
+     * @return { boolean }
+     */
+    isSuccess()
+    {
+        return this._xmlHttpRequest.status === 200;
     }
 }

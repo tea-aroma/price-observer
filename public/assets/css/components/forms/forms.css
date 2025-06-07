@@ -79,3 +79,19 @@
 {
     background: var(--orange);
 }
+.form__notify span
+{
+    display: block;
+}
+.form__notify span:nth-child(n+2)
+{
+    margin-top: 10px;
+}
+.form__notify span.error
+{
+    color: var(--orange);
+}
+.form__notify span.success
+{
+    color: var(--green);
+}
