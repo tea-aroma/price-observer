@@ -1,0 +1,20 @@
+:root
+{
+    --white: #ffffff;
+
+    --dark: #333333;
+
+    --gray: #666666;
+
+    --gray-opacity-01: rgb(102, 102, 102, .1);
+
+    --light-gray: #f1f1f1;
+
+    --ultra-light-gray: #f6f6f6;
+
+    --medium-orchid: #9775CE;
+
+    --grape-dark: #582E9F;
+
+    --orange: #c33806;
+}

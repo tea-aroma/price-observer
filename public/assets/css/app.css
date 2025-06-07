@@ -1,0 +1,25 @@
+@import './components/header/header.css';
+@import './components/main/main.css';
+@import './components/forms/forms.css';
+@import './variables/colors.css';
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,
+body
+{
+    height: 100%;
+}
+body
+{
+    font: 400 16px 'Roboto', sans-serif;
+    background-color: var(--ultra-light-gray);
+    color: var(--dark);
+}
+svg *
+{
+    fill: currentColor;
+}

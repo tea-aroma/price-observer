@@ -1,0 +1,32 @@
+.header
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    padding: 0 40px;
+}
+.header--style-default
+{
+    border-bottom: 1px solid var(--medium-orchid);
+}
+.header__column
+{
+    display: flex;
+    align-items: center;
+}
+.header__icon
+{
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+.header--style-default .header__icon
+{
+    color: var(--grape-dark);
+}
+.header__heading
+{
+    font: 400 20px 'Roboto', sans-serif;
+    letter-spacing: 2px;
+}
