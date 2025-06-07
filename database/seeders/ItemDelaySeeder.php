@@ -21,9 +21,9 @@ class ItemDelaySeeder extends Seeder
     protected function getRecords(): array
     {
         return [
-            [ 'name' => 'Normal', 'code' => 'normal', 'value' => 25 ],
-            [ 'name' => 'Timeout', 'code' => 'timeout', 'value' => 15 ],
-            [ 'name' => 'Error', 'code' => 'error', 'value' => 30 ],
+            [ 'name' => 'Normal', 'code' => 'normal', 'delay' => 25 ],
+            [ 'name' => 'Timeout', 'code' => 'timeout', 'delay' => 15 ],
+            [ 'name' => 'Error', 'code' => 'error', 'delay' => 30 ],
         ];
     }
 }
