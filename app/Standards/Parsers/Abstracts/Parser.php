@@ -3,7 +3,10 @@
 namespace App\Standards\Parsers\Abstracts;
 
 
+use App\Data\Sites\SiteDataAttributes;
+use App\Repositories\SiteRepository;
 use App\Standards\Enums\SettingKey;
+use App\Standards\Parsers\Enums\ValueMethod;
 use App\Standards\Parsers\Interfaces\ParserInterface;
 use DOMDocument;
 use DOMNodeList;
@@ -11,6 +14,7 @@ use DOMXPath;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use JetBrains\PhpStorm\Language;
 
 
@@ -87,14 +91,27 @@ abstract class Parser implements ParserInterface
     }
 
     /**
+     * Performs the xpath query.
+     *
+     * @param string $expression
+     *
+     * @return DOMNodeList|false
+     */
+    protected function xpathQuery(#[Language('XPath')] string $expression): DOMNodeList | false
+    {
+        return $this->xpath->query($expression);
+    }
+
+    /**
      * @return void
      */
     public function initialization(): void
     {
-        $this->html = Cache::remember($this->url, 1000, function ()
+        $this->html = Cache::remember($this->url, 3600, function ()
         {
             return $this->fetch();
         });
+
 
         libxml_use_internal_errors(true);
 
@@ -104,15 +121,11 @@ abstract class Parser implements ParserInterface
     }
 
     /**
-     * Performs the xpath query.
-     *
-     * @param string $expression
-     *
-     * @return DOMNodeList|false
+     * @return string
      */
-    public function xpathQuery(#[Language('XPath')] string $expression): DOMNodeList | false
+    public function url(): string
     {
-        return $this->xpath->query($expression);
+        return $this->url;
     }
 
     /**
@@ -137,5 +150,44 @@ abstract class Parser implements ParserInterface
         $nodes = $this->xpathQuery('//*[@id="mainContent"]/div/div[2]/div[3]/div[1]/div[2]/div[6]/div/span');
 
         return preg_replace('/[^0-9]+/', '', $nodes->item(0)->nodeValue);
+    }
+
+    /**
+     * @return int
+     */
+    public function siteId(): int
+    {
+        $url = parse_url($this->url);
+
+        $basePath = $url['scheme'] . '://' . $url['host'];
+
+        $siteAttributes = SiteDataAttributes::fromArray([ 'url' => $basePath ]);
+
+        $siteValues = clone $siteAttributes;
+
+        $siteValues->code = Str::slug($basePath);
+
+        $siteValues->name = Str::random(20);
+
+        $site = SiteRepository::query()->writeOrUpdate($siteAttributes, $siteValues);
+
+        return $site->id;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $cases = ValueMethod::cases();
+
+        $values = [];
+
+        foreach ($cases as $case)
+        {
+            $values[ Str::snake($case->value) ] = $this->{ $case->value }();
+        }
+
+        return $values;
     }
 }

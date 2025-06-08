@@ -9,6 +9,16 @@ namespace App\Standards\Parsers\Interfaces;
 interface ParserInterface
 {
     /**
+     * @return void
+     */
+    public function initialization(): void;
+
+    /**x
+     * @return string
+     */
+    public function url(): string;
+
+    /**
      * @return int
      */
     public function sellerId(): int;
@@ -56,5 +66,15 @@ interface ParserInterface
     /**
      * @return string
      */
-    public function publicatedAt(): string;
+    public function publicateAt(): string;
+
+    /**
+     * @return int
+     */
+    public function siteId(): int;
+
+    /**
+     * @return array
+     */
+    public function toArray(): array;
 }

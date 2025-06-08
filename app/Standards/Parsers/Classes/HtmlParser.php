@@ -111,7 +111,7 @@ class HtmlParser extends Parser implements ParserInterface
     /**
      * @return string
      */
-    public function publicatedAt(): string
+    public function publicateAt(): string
     {
         $nodes = $this->xpathQuery('//*[@id="mainContent"]/div/div[2]/div[3]/div[2]/div[1]/div/div[1]/span/span');
 

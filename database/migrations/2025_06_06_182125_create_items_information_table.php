@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('url')->unique();
             $table->string('image')->nullable();
-            $table->string('note')->nullable();
+            $table->longText('note')->nullable();
             $table->string('currency')->nullable();
             $table->json('parameters')->default('[]');
-            $table->timestamp('publicate_at')->nullable();
+            $table->string('publicate_at')->nullable()->index();;
         });
     }
 
