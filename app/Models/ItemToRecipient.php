@@ -17,6 +17,11 @@ class ItemToRecipient extends Model
     protected $table = 'items_to_recipients';
 
     /**
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * @var string[]
      */
     protected $fillable =

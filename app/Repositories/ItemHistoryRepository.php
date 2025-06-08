@@ -126,4 +126,33 @@ class ItemHistoryRepository extends Repository implements ReadInterface, FindInt
 
         return $this->newQuery()->updateOrCreate($attributes->toArray(), $values->toArray());
     }
+
+    /**
+     * Gets all latest records.
+     *
+     * @return Collection<ItemHistory>|ItemHistory
+     */
+    public function latest(): Collection | ItemHistory
+    {
+        return $this->newQuery()
+            ->fromRaw('(select *, row_number() over (partition by item_id order by id desc) as rn from items_history) as ih')
+            ->where('rn', '=', 1)
+            ->get();
+    }
+
+    /**
+     * Gets the latest record by the specified item id.
+     *
+     * @param int $itemId
+     *
+     * @return ItemHistory|null
+     */
+    public function latestByItemId(int $itemId): ?ItemHistory
+    {
+        return $this->newQuery()
+            ->fromRaw('(select *, row_number() over (partition by item_id order by id desc) as rn from items_history) as ih')
+            ->where('rn', '=', 1)
+            ->where('item_id', '=', $itemId)
+            ->first();
+    }
 }
