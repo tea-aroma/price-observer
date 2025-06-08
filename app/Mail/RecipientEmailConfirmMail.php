@@ -35,7 +35,7 @@ class RecipientEmailConfirmMail extends Mailable
     {
         $this->recipient = $recipient;
 
-        $this->link = route('recipient-email-confirm', [ 'token' => $this->recipient->token ]);
+        $this->link = route('recipient.confirm', [ 'token' => $this->recipient->token ]);
     }
 
     /**

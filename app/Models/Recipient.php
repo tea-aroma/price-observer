@@ -38,6 +38,6 @@ class Recipient extends Model
      */
     public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class)->using(ItemToRecipient::class);
+        return $this->belongsToMany(Item::class, ItemToRecipient::class);
     }
 }

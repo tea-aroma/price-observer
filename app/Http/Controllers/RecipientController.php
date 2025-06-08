@@ -29,7 +29,7 @@ class RecipientController extends Controller
      */
     public function subscribe(SubscribeRequest $request): JsonResponse
     {
-        recipient()->subscribe($request->input('email'));
+        recipient()->subscribe($request->input('email'), $request->input('url'));
 
         return response()->json([ 'message' => 'You will start receiving price change notifications only after you confirm your email.' ]);
     }
@@ -45,6 +45,6 @@ class RecipientController extends Controller
     {
         recipient()->confirm($token);
 
-        return redirect()->route('subscribe.index');
+        return redirect()->route('recipient.subscribe');
     }
 }
