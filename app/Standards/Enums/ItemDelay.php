@@ -29,4 +29,14 @@ enum ItemDelay: string
 
         return $record ? ItemDelayData::fromArray($record->toArray()) : null;
     }
+
+    /**
+     * @return string
+     */
+    public function cronSignature(): string
+    {
+        $data = $this->data();
+
+        return "*/{$data->delay} * * * *";
+    }
 }
