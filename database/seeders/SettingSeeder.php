@@ -24,6 +24,7 @@ class SettingSeeder extends Seeder
             [ 'key' => 'recipient_confirmation_time', 'value' => 'deleted', 'description' => 'Duration time for email confirmation (seconds).' ],
             [ 'key' => 'request_timeout', 'value' => '10', 'description' => 'Request timeout (seconds).' ],
             [ 'key' => 'request_user_agent', 'value' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36', 'description' => '' ],
+            [ 'key' => 'items_check_delay', 'value' => '20', 'description' => '' ],
         ];
     }
 }

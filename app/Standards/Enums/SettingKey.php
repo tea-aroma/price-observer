@@ -18,6 +18,8 @@ enum SettingKey: string
 
     case REQUEST_TIMEOUT = 'request_timeout';
 
+    case ITEMS_CHECK_DELAY = 'items_check_delay';
+
     /**
      * Gets the classifier data.
      *
