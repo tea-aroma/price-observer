@@ -107,11 +107,10 @@ abstract class Parser implements ParserInterface
      */
     public function initialization(): void
     {
-        $this->html = Cache::remember($this->url, 3600, function ()
+        $this->html = Cache::remember($this->url, 120, function ()
         {
             return $this->fetch();
         });
-
 
         libxml_use_internal_errors(true);
 

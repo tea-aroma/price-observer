@@ -60,7 +60,7 @@ class Recipient
             abort(404);
         }
 
-        $attributes = RecipientDataAttributes::fromArray([ 'id' => $record->id, 'token' => $this->generateToken(), 'confirmed_at' => date('Y-m-d H:i:s'), ]);
+        $attributes = RecipientDataAttributes::fromArray([ 'id' => $record->id, 'token' => $this->generateToken(), 'confirmed_at' => date('Y-m-d H:i:s'), 'is_active' => true,]);
 
         return RecipientRepository::query()->update($attributes);
     }
