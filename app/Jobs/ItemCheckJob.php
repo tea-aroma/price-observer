@@ -22,7 +22,7 @@ class ItemCheckJob implements ShouldQueue
     /**
      * @var Item
      */
-    protected Item $item;
+    public Item $item;
 
     /**
      * Create a new job instance.
