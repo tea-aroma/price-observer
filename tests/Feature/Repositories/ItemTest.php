@@ -8,7 +8,7 @@ use App\Repositories\ItemRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ItemRepositoryTest extends TestCase
+class ItemTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -29,7 +29,7 @@ class ItemRepositoryTest extends TestCase
 
         $record = ItemRepository::query()->write($attributes);
 
-        $attributes->id = $item->id;
+        $attributes->id = $record->id;
 
         $attributes->platform_id = 5;
 
